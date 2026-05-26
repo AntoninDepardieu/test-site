@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ARQUA — Pergolas & Carports de Prestige</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blanc: #faf8f5;
+  --blanc-pur: #ffffff;
+  --creme: #f3efe8;
+  --creme-dark: #e8e2d8;
+  --noir: #111111;
+  --noir-soft: #222222;
+  --gris: #888880;
+  --gris-light: #bbb9b2;
+  --gris-card: #f7f5f1;
+  --or: #b8963e;
+  --or-light: #d4b060;
+  --or-pale: #f0e6cc;
+  --or-dark: #8a6e28;
+  --serif: 'Cormorant Garamond', Georgia, serif;
+  --sans: 'Montserrat', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{background:var(--blanc);color:var(--noir);font-family:var(--sans);font-weight:300;overflow-x:hidden;cursor:none;}
+
+/* CURSOR */
+.cur{position:fixed;width:10px;height:10px;background:var(--or);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s;}
+.cur-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(184,150,62,.45);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all .28s cubic-bezier(.17,.67,.83,.67);}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 5vw;height:76px;background:rgba(250,248,245,.94);backdrop-filter:blur(14px);border-bottom:1px solid rgba(184,150,62,.15);}
+.nav-logo{font-family:var(--serif);font-size:26px;font-weight:400;letter-spacing:.18em;color:var(--noir);text-decoration:none;}
+.nav-logo span{color:var(--or);}
+.nav-links{display:flex;gap:2.5rem;list-style:none;}
+.nav-links a{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--gris);text-decoration:none;transition:color .3s;}
+.nav-links a:hover{color:var(--or);}
+.nav-right{display:flex;align-items:center;gap:1.5rem;}
+.nav-cart-btn{background:none;border:none;cursor:none;position:relative;padding:4px;}
+.cart-badge{position:absolute;top:-6px;right:-6px;background:var(--or);color:#fff;width:17px;height:17px;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;font-weight:600;display:none;}
+.nav-cta{font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:9px 24px;border:1.5px solid var(--or);color:var(--or);text-decoration:none;transition:all .3s;}
+.nav-cta:hover{background:var(--or);color:#fff;}
+
+/* HERO */
+.hero{min-height:100vh;position:relative;display:grid;grid-template-columns:1fr 1fr;}
+.hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 5vw 10vh 8vw;background:var(--blanc);position:relative;z-index:2;}
+.hero-right{position:relative;overflow:hidden;}
+.hero-right img{width:100%;height:100%;object-fit:cover;object-position:center;}
+.hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,var(--blanc) 0%,transparent 20%);}
+.hero-eyebrow{font-size:9px;letter-spacing:.38em;text-transform:uppercase;color:var(--or);margin-bottom:2rem;display:flex;align-items:center;gap:1rem;}
+.hero-eyebrow::before{content:'';display:block;width:36px;height:1px;background:var(--or);}
+.hero-title{font-family:var(--serif);font-weight:300;font-size:clamp(50px,6vw,88px);line-height:1.02;letter-spacing:-.01em;margin-bottom:2rem;color:var(--noir);}
+.hero-title em{font-style:italic;color:var(--or);}
+.hero-subtitle{font-size:10.5px;letter-spacing:.12em;line-height:2.1;color:var(--gris);max-width:380px;margin-bottom:3.5rem;text-transform:uppercase;}
+.hero-actions{display:flex;align-items:center;gap:3rem;}
+.btn-primary{font-size:9px;letter-spacing:.26em;text-transform:uppercase;padding:15px 42px;background:var(--or);color:#fff;text-decoration:none;font-weight:500;transition:all .3s;display:inline-block;}
+.btn-primary:hover{background:var(--or-dark);transform:translateY(-2px);}
+.btn-ghost{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:var(--gris);text-decoration:none;display:flex;align-items:center;gap:.9rem;transition:color .3s;}
+.btn-ghost::after{content:'→';font-size:14px;transition:transform .3s;}
+.btn-ghost:hover{color:var(--noir);}
+.btn-ghost:hover::after{transform:translateX(5px);}
+.hero-stats{display:flex;gap:3rem;margin-top:4rem;padding-top:3rem;border-top:1px solid var(--creme-dark);}
+.stat-num{font-family:var(--serif);font-size:30px;font-weight:400;color:var(--or);display:block;}
+.stat-lbl{font-size:8px;letter-spacing:.28em;text-transform:uppercase;color:var(--gris);display:block;margin-top:4px;}
+
+/* TICKER */
+.ticker{background:var(--or);padding:13px 0;overflow:hidden;}
+.ticker-track{display:flex;white-space:nowrap;animation:tick 32s linear infinite;}
+.ticker-item{display:inline-flex;align-items:center;gap:1.5rem;padding:0 3rem;font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#fff;font-weight:400;}
+.ticker-dot{width:3px;height:3px;background:rgba(255,255,255,.5);border-radius:50%;}
+@keyframes tick{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+/* SECTIONS */
+section{padding:110px 8vw;}
+.section-label{font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--or);margin-bottom:1.4rem;display:flex;align-items:center;gap:1rem;}
+.section-label::before{content:'';display:block;width:28px;height:1px;background:var(--or);}
+.section-title{font-family:var(--serif);font-weight:300;font-size:clamp(34px,4vw,60px);line-height:1.08;color:var(--noir);margin-bottom:.8rem;}
+.section-title em{font-style:italic;color:var(--or);}
+
+/* FILTER TABS */
+.filter-tabs{display:flex;gap:.75rem;margin-bottom:3rem;flex-wrap:wrap;}
+.ftab{font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:8px 22px;border:1px solid var(--creme-dark);color:var(--gris);background:none;cursor:none;transition:all .3s;}
+.ftab.active,.ftab:hover{border-color:var(--or);color:var(--or);}
+.ftab.active{background:var(--or-pale);}
+
+/* PRODUCTS GRID */
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.pcard{background:var(--blanc-pur);overflow:hidden;cursor:none;border:1px solid var(--creme-dark);transition:box-shadow .4s,transform .4s;}
+.pcard:hover{box-shadow:0 8px 40px rgba(184,150,62,.12);transform:translateY(-3px);}
+.pcard.featured{grid-column:span 2;}
+.pcard-img{position:relative;overflow:hidden;background:var(--creme);}
+.pcard-img img{width:100%;height:100%;object-fit:cover;transition:transform .7s cubic-bezier(.23,1,.32,1);}
+.pcard:hover .pcard-img img{transform:scale(1.04);}
+.pcard-img-h{height:280px;}
+.pcard.featured .pcard-img-h{height:420px;}
+.pcard-badge{position:absolute;top:1.2rem;left:1.2rem;background:var(--or);color:#fff;font-size:7.5px;letter-spacing:.25em;text-transform:uppercase;padding:5px 14px;font-weight:500;}
+.pcard-info{padding:1.6rem 2rem;}
+.pcard-cat{font-size:7.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--or);margin-bottom:.6rem;display:block;}
+.pcard-name{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--noir);margin-bottom:.6rem;}
+.pcard.featured .pcard-name{font-size:30px;}
+.pcard-desc{font-size:10px;letter-spacing:.05em;line-height:1.9;color:var(--gris);margin-bottom:1.4rem;}
+.pcard-footer{display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--creme-dark);padding-top:1.2rem;}
+.pcard-price-from{font-size:7.5px;letter-spacing:.15em;text-transform:uppercase;color:var(--gris-light);display:block;margin-bottom:3px;}
+.pcard-price{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--noir);}
+.pcard-actions{display:flex;gap:.7rem;}
+.btn-detail{font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;padding:9px 20px;border:1px solid var(--creme-dark);color:var(--gris);background:none;cursor:none;text-decoration:none;display:inline-flex;align-items:center;transition:all .3s;}
+.btn-detail:hover{border-color:var(--or);color:var(--or);}
+.btn-add{font-size:8.5px;letter-spacing:.15em;text-transform:uppercase;padding:9px 20px;background:var(--noir);color:#fff;border:none;cursor:none;transition:background .3s;}
+.btn-add:hover{background:var(--or);}
+
+/* SPLIT / BOOKING */
+.split{display:grid;grid-template-columns:1fr 1fr;min-height:70vh;}
+.split-img{position:relative;overflow:hidden;}
+.split-img img{width:100%;height:100%;object-fit:cover;}
+.split-content{background:var(--creme);padding:80px 5vw;display:flex;flex-direction:column;justify-content:center;}
+.process-steps{margin:2.5rem 0;display:flex;flex-direction:column;}
+.pstep{display:flex;gap:2rem;padding:1.8rem 0;border-bottom:1px solid var(--creme-dark);position:relative;}
+.pstep::before{content:'';position:absolute;left:19px;top:0;bottom:0;width:1px;background:rgba(184,150,62,.2);}
+.step-num{width:40px;height:40px;min-width:40px;border:1.5px solid var(--or);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:16px;color:var(--or);background:var(--creme);position:relative;z-index:1;}
+.step-title{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--noir);margin-bottom:.5rem;}
+.step-desc{font-size:10px;letter-spacing:.05em;line-height:1.9;color:var(--gris);}
+
+/* BOOKING FORM */
+.booking{background:var(--blanc-pur);}
+.booking-inner{max-width:860px;margin:0 auto;text-align:center;}
+.booking-form{margin-top:4rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5px;text-align:left;background:var(--creme-dark);}
+.fgroup{background:var(--blanc-pur);padding:1.5rem 2rem;}
+.fgroup.full{grid-column:span 2;}
+.flabel{font-size:7.5px;letter-spacing:.35em;text-transform:uppercase;color:var(--or);margin-bottom:.7rem;display:block;}
+.finput,.fselect,.ftextarea{width:100%;background:none;border:none;border-bottom:1px solid var(--creme-dark);color:var(--noir);font-family:var(--sans);font-size:13px;font-weight:300;padding:8px 0;outline:none;transition:border-color .3s;appearance:none;}
+.finput::placeholder{color:var(--gris-light);}
+.finput:focus,.fselect:focus,.ftextarea:focus{border-color:var(--or);}
+.ftextarea{height:80px;resize:none;}
+.fsubmit{grid-column:span 2;background:var(--noir);color:#fff;padding:22px;font-family:var(--sans);font-size:9px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;cursor:none;border:none;transition:all .3s;}
+.fsubmit:hover{background:var(--or);letter-spacing:.4em;}
+
+/* WHY */
+.why{background:var(--creme);}
+.why-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px;margin-top:4rem;}
+.why-item{background:var(--blanc-pur);padding:2.5rem 2rem;border-top:2px solid transparent;transition:border-color .4s;}
+.why-item:hover{border-color:var(--or);}
+.why-icon{width:40px;height:40px;margin-bottom:1.6rem;display:flex;align-items:center;justify-content:center;}
+.why-title{font-family:var(--serif);font-size:19px;font-weight:400;color:var(--noir);margin-bottom:.8rem;}
+.why-desc{font-size:10px;letter-spacing:.05em;line-height:2;color:var(--gris);}
+
+/* FINISHES */
+.finishes-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:1.5rem;margin-top:4rem;}
+.finish-item{text-align:center;cursor:none;}
+.finish-swatch{width:72px;height:72px;border-radius:50%;margin:0 auto 1rem;border:1.5px solid var(--creme-dark);transition:all .3s;}
+.finish-item:hover .finish-swatch{border-color:var(--or);transform:scale(1.06);}
+.finish-name{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
+
+/* REALISATIONS */
+.realisations{background:var(--blanc);padding:110px 0;}
+.realisations-header{padding:0 8vw;margin-bottom:3.5rem;}
+.real-scroll{display:flex;gap:2px;overflow-x:auto;padding:0 8vw;scrollbar-width:none;}
+.real-scroll::-webkit-scrollbar{display:none;}
+.real-card{min-width:370px;background:var(--blanc-pur);overflow:hidden;flex-shrink:0;border:1px solid var(--creme-dark);cursor:none;transition:box-shadow .4s;}
+.real-card:hover{box-shadow:0 8px 32px rgba(0,0,0,.08);}
+.real-img{height:260px;overflow:hidden;position:relative;}
+.real-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.real-card:hover .real-img img{transform:scale(1.04);}
+.real-info{padding:1.4rem 1.8rem;}
+.real-name{font-family:var(--serif);font-size:18px;font-weight:400;color:var(--noir);margin-bottom:.4rem;}
+.real-loc{font-size:8.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--or);}
+
+/* TESTIMONIALS */
+.testimonials{background:var(--creme);}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:4rem;}
+.tcard{background:var(--blanc-pur);padding:2.8rem;}
+.tquote{font-family:var(--serif);font-style:italic;font-size:18px;line-height:1.65;font-weight:300;color:var(--noir);margin-bottom:1.8rem;}
+.tstars{display:flex;gap:4px;margin-bottom:1.4rem;}
+.tstar{color:var(--or);font-size:10px;}
+.tauthor{display:flex;align-items:center;gap:1rem;}
+.tavatar{width:40px;height:40px;border-radius:50%;background:var(--or-pale);border:1px solid var(--or);display:flex;align-items:center;justify-content:center;font-family:var(--serif);font-size:14px;color:var(--or);}
+.tname{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:var(--noir);}
+.tloc{font-size:9px;color:var(--gris);margin-top:2px;}
+
+/* BANNER */
+.banner{background:var(--noir);padding:80px 8vw;display:flex;justify-content:space-between;align-items:center;}
+.banner-title{font-family:var(--serif);font-size:clamp(30px,3.2vw,52px);font-weight:300;color:#fff;line-height:1.1;}
+.banner-title em{font-style:italic;color:var(--or);}
+.banner-sub{font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gris);margin-top:.75rem;}
+.btn-light{padding:15px 42px;background:var(--or);color:#fff;font-size:9px;letter-spacing:.26em;text-transform:uppercase;font-weight:500;text-decoration:none;display:inline-block;transition:all .3s;}
+.btn-light:hover{background:var(--or-dark);}
+
+/* FOOTER */
+footer{background:var(--noir);}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;padding:80px 8vw;}
+.footer-logo{font-family:var(--serif);font-size:30px;font-weight:400;color:#fff;letter-spacing:.15em;margin-bottom:1.4rem;display:block;}
+.footer-logo span{color:var(--or);}
+.footer-tagline{font-size:10px;letter-spacing:.08em;line-height:2;color:var(--gris);max-width:250px;}
+.footer-phone{font-family:var(--serif);font-size:22px;color:var(--or);text-decoration:none;display:block;margin-top:2rem;margin-bottom:.4rem;}
+.footer-email{font-size:10px;letter-spacing:.1em;color:var(--gris);text-decoration:none;}
+.footer-col-title{font-size:8px;letter-spacing:.35em;text-transform:uppercase;color:var(--or);margin-bottom:1.8rem;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:.9rem;}
+.footer-links a{font-size:11px;letter-spacing:.08em;color:var(--gris);text-decoration:none;transition:color .3s;}
+.footer-links a:hover{color:#fff;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.07);padding:22px 8vw;display:flex;justify-content:space-between;align-items:center;}
+.footer-copy{font-size:9px;letter-spacing:.15em;color:rgba(136,136,128,.5);}
+.footer-social{display:flex;gap:1rem;}
+.social-link{width:32px;height:32px;border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:var(--gris);text-decoration:none;font-size:10px;transition:all .3s;}
+.social-link:hover{border-color:var(--or);color:var(--or);}
+
+/* CART */
+.cart-ov{position:fixed;inset:0;z-index:200;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .4s;}
+.cart-ov.open{opacity:1;pointer-events:all;}
+.cart-sb{position:fixed;top:0;right:0;bottom:0;width:420px;z-index:201;background:var(--blanc-pur);border-left:1px solid var(--creme-dark);transform:translateX(100%);transition:transform .5s cubic-bezier(.23,1,.32,1);display:flex;flex-direction:column;}
+.cart-sb.open{transform:translateX(0);}
+.cart-hdr{padding:2rem;border-bottom:1px solid var(--creme-dark);display:flex;justify-content:space-between;align-items:center;}
+.cart-ttl{font-family:var(--serif);font-size:24px;font-weight:400;color:var(--noir);}
+.cart-cls{background:none;border:none;color:var(--gris);font-size:20px;cursor:none;transition:color .3s;padding:4px;}
+.cart-cls:hover{color:var(--or);}
+.cart-body{flex:1;overflow-y:auto;padding:2rem;}
+.citem{display:flex;gap:1.4rem;padding:1.4rem 0;border-bottom:1px solid var(--creme-dark);}
+.citem-img{width:80px;height:68px;object-fit:cover;flex-shrink:0;}
+.citem-name{font-family:var(--serif);font-size:16px;color:var(--noir);margin-bottom:3px;}
+.citem-var{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gris);}
+.citem-price{font-family:var(--serif);font-size:16px;color:var(--or);margin-top:6px;}
+.cart-ftr{padding:2rem;border-top:1px solid var(--creme-dark);}
+.cart-total{display:flex;justify-content:space-between;margin-bottom:1.4rem;align-items:baseline;}
+.cart-total-lbl{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--gris);}
+.cart-total-amt{font-family:var(--serif);font-size:22px;color:var(--or);}
+.cart-co{width:100%;padding:18px;background:var(--noir);color:#fff;font-family:var(--sans);font-size:9px;letter-spacing:.3em;text-transform:uppercase;font-weight:500;cursor:none;border:none;transition:background .3s;margin-bottom:.7rem;}
+.cart-co:hover{background:var(--or);}
+.cart-note{font-size:9px;letter-spacing:.08em;color:var(--gris);text-align:center;}
+.cart-empty{text-align:center;padding:4rem 2rem;color:var(--gris);font-size:11px;letter-spacing:.1em;}
+
+/* TOAST */
+.toast{position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--nor);background:var(--noir);color:#fff;padding:14px 32px;font-size:9px;letter-spacing:.25em;text-transform:uppercase;z-index:500;transition:transform .5s cubic-bezier(.23,1,.32,1);font-weight:400;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .9s cubic-bezier(.23,1,.32,1) both;}
+.d1{animation-delay:.1s}.d2{animation-delay:.25s}.d3{animation-delay:.4s}.d4{animation-delay:.55s}.d5{animation-delay:.7s}
+
+/* ========================
+   PAGE PRODUIT
+   ======================== */
+.page{display:none;}
+.page.active{display:block;}
+
+/* Breadcrumb */
+.breadcrumb{padding:100px 8vw 0;display:flex;align-items:center;gap:.8rem;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);}
+.breadcrumb a{color:var(--gris);text-decoration:none;transition:color .3s;}
+.breadcrumb a:hover{color:var(--or);}
+.breadcrumb span{color:var(--gris-light);}
+
+/* Product Hero */
+.prod-hero{display:grid;grid-template-columns:1.1fr 1fr;gap:0;min-height:85vh;margin-top:2rem;}
+.prod-gallery{position:relative;background:var(--creme);}
+.prod-gallery .main-img{width:100%;height:100%;object-fit:cover;min-height:600px;}
+.prod-gallery-thumbs{position:absolute;left:1.5rem;bottom:1.5rem;display:flex;flex-direction:column;gap:.5rem;}
+.thumb{width:66px;height:54px;object-fit:cover;cursor:none;opacity:.6;border:1.5px solid transparent;transition:all .3s;}
+.thumb.active,.thumb:hover{opacity:1;border-color:var(--or);}
+.prod-info{padding:4rem 4vw 3rem 4vw;display:flex;flex-direction:column;background:var(--blanc-pur);}
+.prod-badge-row{display:flex;gap:.75rem;margin-bottom:1.5rem;}
+.pbadge{font-size:7.5px;letter-spacing:.28em;text-transform:uppercase;padding:5px 14px;font-weight:500;}
+.pbadge.gold{background:var(--or);color:#fff;}
+.pbadge.outline{border:1px solid var(--or);color:var(--or);}
+.prod-title{font-family:var(--serif);font-size:clamp(28px,3vw,48px);font-weight:300;color:var(--noir);line-height:1.08;margin-bottom:.6rem;}
+.prod-subtitle{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gris);margin-bottom:2rem;}
+.prod-price-row{display:flex;align-items:baseline;gap:1rem;margin-bottom:1.8rem;padding-bottom:1.8rem;border-bottom:1px solid var(--creme-dark);}
+.prod-price-from{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:var(--gris-light);}
+.prod-price{font-family:var(--serif);font-size:38px;font-weight:400;color:var(--noir);}
+.prod-price-unit{font-size:11px;color:var(--gris);letter-spacing:.1em;}
+
+/* Configurator */
+.config-section{margin-bottom:2rem;}
+.config-title{font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--noir);margin-bottom:1rem;}
+.color-options{display:flex;gap:.7rem;flex-wrap:wrap;}
+.color-opt{width:34px;height:34px;border-radius:50%;cursor:none;border:2px solid transparent;transition:all .3s;position:relative;}
+.color-opt.selected,.color-opt:hover{border-color:var(--or);transform:scale(1.1);}
+.size-options{display:flex;gap:.6rem;flex-wrap:wrap;}
+.size-opt{font-size:9px;letter-spacing:.15em;text-transform:uppercase;padding:8px 18px;border:1px solid var(--creme-dark);color:var(--gris);background:none;cursor:none;transition:all .3s;}
+.size-opt.selected,.size-opt:hover{border-color:var(--or);color:var(--or);}
+.size-opt.selected{background:var(--or-pale);}
+
+/* Features mini */
+.prod-features{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:2rem;}
+.pfeature{display:flex;align-items:center;gap:.8rem;padding:.9rem 1rem;background:var(--gris-card);border-left:2px solid var(--or);}
+.pfeature-icon{color:var(--or);font-size:14px;min-width:18px;}
+.pfeature-text{font-size:9px;letter-spacing:.08em;line-height:1.6;color:var(--gris);}
+
+/* CTA buttons */
+.prod-cta{display:flex;flex-direction:column;gap:.8rem;margin-top:auto;}
+.btn-buy{padding:18px;background:var(--noir);color:#fff;font-family:var(--sans);font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;cursor:none;border:none;transition:background .3s;text-align:center;}
+.btn-buy:hover{background:var(--or);}
+.btn-devis{padding:15px;background:none;border:1.5px solid var(--or);color:var(--or);font-family:var(--sans);font-size:9px;letter-spacing:.28em;text-transform:uppercase;font-weight:500;cursor:none;transition:all .3s;text-decoration:none;text-align:center;display:block;}
+.btn-devis:hover{background:var(--or);color:#fff;}
+.prod-reassurance{display:flex;gap:1.5rem;margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--creme-dark);}
+.reass-item{display:flex;align-items:center;gap:.5rem;font-size:9px;letter-spacing:.08em;color:var(--gris);}
+
+/* Tabs product detail */
+.prod-tabs{padding:70px 8vw;}
+.tab-nav{display:flex;gap:0;border-bottom:1px solid var(--creme-dark);margin-bottom:3rem;}
+.tab-btn{font-size:9.5px;letter-spacing:.22em;text-transform:uppercase;padding:14px 28px;background:none;border:none;color:var(--gris);cursor:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .3s;}
+.tab-btn.active{color:var(--or);border-bottom-color:var(--or);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+.specs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;background:var(--creme-dark);}
+.spec-item{background:var(--blanc-pur);padding:1.8rem 2rem;}
+.spec-label{font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:var(--or);margin-bottom:.5rem;}
+.spec-value{font-family:var(--serif);font-size:22px;font-weight:400;color:var(--noir);}
+.spec-sub{font-size:9px;letter-spacing:.08em;color:var(--gris);margin-top:3px;}
+.inclus-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+.inclus-item{display:flex;align-items:flex-start;gap:1rem;padding:1.2rem;background:var(--gris-card);}
+.inclus-check{color:var(--or);font-size:16px;margin-top:2px;}
+.inclus-text{}
+.inclus-title{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--noir);margin-bottom:3px;}
+.inclus-desc{font-size:9.5px;letter-spacing:.05em;line-height:1.7;color:var(--gris);}
+
+/* Related products */
+.related{background:var(--creme);padding:80px 8vw;}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin-top:3rem;}
+
+/* Responsive */
+@media(max-width:1024px){
+  .hero{grid-template-columns:1fr;}
+  .hero-right{display:none;}
+  .hero-left{padding:140px 5vw 10vh;}
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .pcard.featured{grid-column:span 2;}
+  .why-grid{grid-template-columns:repeat(2,1fr);}
+  .footer-top{grid-template-columns:1fr 1fr;}
+  .split{grid-template-columns:1fr;}
+  .split-img{min-height:400px;}
+  .prod-hero{grid-template-columns:1fr;}
+  .prod-gallery .main-img{min-height:400px;}
+  .testi-grid{grid-template-columns:1fr;}
+}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  section{padding:70px 5vw;}
+  .products-grid{grid-template-columns:1fr;}
+  .pcard.featured{grid-column:span 1;}
+  .finishes-grid{grid-template-columns:repeat(3,1fr);}
+  .banner{flex-direction:column;gap:2.5rem;text-align:center;}
+  .footer-top{grid-template-columns:1fr;}
+  .booking-form{grid-template-columns:1fr;}
+  .fgroup.full{grid-column:span 1;}
+  .fsubmit{grid-column:span 1;}
+  .cart-sb{width:100%;}
+  .specs-grid{grid-template-columns:1fr 1fr;}
+  .inclus-grid{grid-template-columns:1fr;}
+  .related-grid{grid-template-columns:1fr;}
+  .prod-features{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="cur" id="cur"></div>
+<div class="cur-ring" id="curRing"></div>
+
+<!-- CART -->
+<div class="cart-ov" id="cartOv" onclick="closeCart()"></div>
+<div class="cart-sb" id="cartSb">
+  <div class="cart-hdr">
+    <h2 class="cart-ttl">Mon Panier</h2>
+    <button class="cart-cls" onclick="closeCart()">✕</button>
+  </div>
+  <div class="cart-body">
+    <div id="cartItems"></div>
+    <div class="cart-empty" id="cartEmpty">Votre panier est vide.</div>
+  </div>
+  <div class="cart-ftr" id="cartFtr" style="display:none">
+    <div class="cart-total">
+      <span class="cart-total-lbl">Total estimé</span>
+      <span class="cart-total-amt" id="cartTotal">0 €</span>
+    </div>
+    <button class="cart-co">Commander · Livraison offerte</button>
+    <p class="cart-note">Paiement sécurisé · Livraison 15 jours · Retour 30 jours</p>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo" onclick="showPage('home');return false;">ARQ<span>◆</span>A</a>
+  <ul class="nav-links">
+    <li><a href="#collections" onclick="showPage('home');setTimeout(()=>document.getElementById('collections').scrollIntoView({behavior:'smooth'}),100);return false;">Pergolas</a></li>
+    <li><a href="#collections" onclick="showPage('home');setTimeout(()=>document.getElementById('collections').scrollIntoView({behavior:'smooth'}),100);return false;">Carports</a></li>
+    <li><a href="#booking" onclick="showPage('home');setTimeout(()=>document.getElementById('booking').scrollIntoView({behavior:'smooth'}),100);return false;">Installation</a></li>
+    <li><a href="#realisations" onclick="showPage('home');setTimeout(()=>document.getElementById('realisations').scrollIntoView({behavior:'smooth'}),100);return false;">Réalisations</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart-btn" onclick="toggleCart()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--gris)" stroke-width="1.5"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"/></svg>
+      <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <a href="#booking" class="nav-cta" onclick="showPage('home');setTimeout(()=>document.getElementById('booking').scrollIntoView({behavior:'smooth'}),100);return false;">Devis gratuit</a>
+  </div>
+</nav>
+
+<!-- ===================== PAGE HOME ===================== -->
+<div class="page active" id="pageHome">
+
+<!-- HERO -->
+<section class="hero" style="padding:0;">
+  <div class="hero-left">
+    <div style="padding-top:76px;"></div>
+    <p class="hero-eyebrow fade-up">L'Art de Vivre Extérieur</p>
+    <h1 class="hero-title fade-up d1">Pergolas &amp;<br><em>Carports</em><br>de Prestige</h1>
+    <p class="hero-subtitle fade-up d2">Aluminium haut de gamme · Design sur mesure<br>Pose par des artisans certifiés</p>
+    <div class="hero-actions fade-up d3">
+      <a href="#collections" class="btn-primary" onclick="event.preventDefault();document.getElementById('collections').scrollIntoView({behavior:'smooth'})">Découvrir la collection</a>
+      <a href="#booking" class="btn-ghost" onclick="event.preventDefault();document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Faire installer</a>
+    </div>
+    <div class="hero-stats fade-up d4">
+      <div><span class="stat-num">12+</span><span class="stat-lbl">Années d'expertise</span></div>
+      <div><span class="stat-num">1 800</span><span class="stat-lbl">Installations réalisées</span></div>
+      <div><span class="stat-num">10 ans</span><span class="stat-lbl">Garantie structure</span></div>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=85&auto=format" alt="Terrasse luxe avec pergola">
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <span class="ticker-item">Livraison offerte en France<span class="ticker-dot"></span></span>
+    <span class="ticker-item">10 ans de garantie structure<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pose par artisans certifiés<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Aluminium thermo-laqué premium<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Paiement en 3× sans frais<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Devis gratuit sous 48h<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Livraison offerte en France<span class="ticker-dot"></span></span>
+    <span class="ticker-item">10 ans de garantie structure<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Pose par artisans certifiés<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Aluminium thermo-laqué premium<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Paiement en 3× sans frais<span class="ticker-dot"></span></span>
+    <span class="ticker-item">Devis gratuit sous 48h<span class="ticker-dot"></span></span>
+  </div>
+</div>
+
+<!-- COLLECTIONS -->
+<section id="collections">
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1rem;">
+    <div>
+      <p class="section-label">Collections</p>
+      <h2 class="section-title">Pergolas <em>Bioclimatiques</em><br>&amp; Carports</h2>
+    </div>
+    <a href="#" style="font-size:9px;letter-spacing:.25em;text-transform:uppercase;color:var(--or);text-decoration:none;">Voir tout →</a>
+  </div>
+  <div style="font-size:10.5px;letter-spacing:.1em;line-height:2;color:var(--gris);max-width:480px;margin-bottom:3rem;">Découvrez notre gamme de structures aluminium haut de gamme, conçues pour sublimer votre espace extérieur en toutes saisons.</div>
+
+  <div class="filter-tabs">
+    <button class="ftab active" onclick="filterCat('all',this)">Tous les produits</button>
+    <button class="ftab" onclick="filterCat('pergola',this)">Pergolas</button>
+    <button class="ftab" onclick="filterCat('carport',this)">Carports</button>
+    <button class="ftab" onclick="filterCat('sur-mesure',this)">Sur mesure</button>
+  </div>
+
+  <div class="products-grid" id="productsGrid">
+
+    <!-- Featured -->
+    <div class="pcard featured" data-cat="pergola" data-prod="signature">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=80&auto=format" alt="Pergola Signature Bioclimatique">
+        <span class="pcard-badge">Bestseller 2025</span>
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Pergola · Bioclimatique Motorisée</span>
+        <h3 class="pcard-name">Pergola Signature Bioclimatique</h3>
+        <p class="pcard-desc">Lames orientables motorisées · Aluminium thermo-laqué · LED intégrées · Smart Home · Résistance ouragan certifiée Beaufort 12</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">À partir de</span>
+            <span class="pcard-price">4 890 €</span>
+          </div>
+          <div class="pcard-actions">
+            <a href="#" class="btn-detail" onclick="openProduct('signature');return false;">Voir le produit</a>
+            <button class="btn-add" onclick="addToCart('Pergola Signature',4890,'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=120&q=70')">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pergola Élite -->
+    <div class="pcard" data-cat="pergola" data-prod="elite">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80&auto=format" alt="Pergola Élite">
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Pergola · Aluminium</span>
+        <h3 class="pcard-name">Pergola Élite Motorisée</h3>
+        <p class="pcard-desc">Lames motorisées · Toiture double paroi · 7 coloris</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">À partir de</span>
+            <span class="pcard-price">3 290 €</span>
+          </div>
+          <div class="pcard-actions">
+            <a href="#" class="btn-detail" onclick="openProduct('elite');return false;">Voir</a>
+            <button class="btn-add" onclick="addToCart('Pergola Élite',3290,'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&q=70')">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carport Prestige -->
+    <div class="pcard" data-cat="carport" data-prod="carport1">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&q=80&auto=format" alt="Carport Prestige">
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Carport · 1 à 2 voitures</span>
+        <h3 class="pcard-name">Carport Prestige Adossé</h3>
+        <p class="pcard-desc">Toit plat aluminium · Panneaux sandwich · Autoportant ou adossé</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">À partir de</span>
+            <span class="pcard-price">2 190 €</span>
+          </div>
+          <div class="pcard-actions">
+            <a href="#" class="btn-detail" onclick="openProduct('carport1');return false;">Voir</a>
+            <button class="btn-add" onclick="addToCart('Carport Prestige',2190,'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=120&q=70')">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pergola Arche -->
+    <div class="pcard" data-cat="pergola">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&q=80&auto=format" alt="Pergola Arche Classique">
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Pergola · Design classique</span>
+        <h3 class="pcard-name">Pergola Arche Classique</h3>
+        <p class="pcard-desc">Lames fixes · Structure voûtée · Idéale jardin classique</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">À partir de</span>
+            <span class="pcard-price">1 890 €</span>
+          </div>
+          <div class="pcard-actions">
+            <button class="btn-add" onclick="addToCart('Pergola Arche',1890,'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=120&q=70')">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Carport Double -->
+    <div class="pcard" data-cat="carport">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=800&q=80&auto=format" alt="Carport Double">
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Carport · Double</span>
+        <h3 class="pcard-name">Carport Grand Format</h3>
+        <p class="pcard-desc">Pour 2 véhicules · Structure centrale · Toiture inclinée aluminium</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">À partir de</span>
+            <span class="pcard-price">3 790 €</span>
+          </div>
+          <div class="pcard-actions">
+            <button class="btn-add" onclick="addToCart('Carport Double',3790,'https://images.unsplash.com/photo-1507089947368-19c1da9775ae?w=120&q=70')">Ajouter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sur mesure -->
+    <div class="pcard" data-cat="sur-mesure" style="border:1.5px solid var(--or);">
+      <div class="pcard-img pcard-img-h">
+        <img src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=800&q=80&auto=format" alt="Sur mesure">
+        <span class="pcard-badge" style="background:var(--noir);">Exclusif</span>
+      </div>
+      <div class="pcard-info">
+        <span class="pcard-cat">Création · Entièrement personnalisée</span>
+        <h3 class="pcard-name">Création Personnalisée</h3>
+        <p class="pcard-desc">Dimensions, couleurs, finitions — conçu par nos architectes selon votre espace</p>
+        <div class="pcard-footer">
+          <div>
+            <span class="pcard-price-from">Tarif sur étude</span>
+            <span class="pcard-price">Devis gratuit</span>
+          </div>
+          <div class="pcard-actions">
+            <a href="#booking" class="btn-detail" onclick="event.preventDefault();document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Nous contacter</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SPLIT / INSTALLATION -->
+<div class="split" id="booking">
+  <div class="split-img">
+    <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1000&q=85&auto=format" alt="Installation pergola">
+  </div>
+  <div class="split-content">
+    <p class="section-label">Service Installation</p>
+    <h2 class="section-title">Posée par <em>nos artisans</em></h2>
+    <p style="font-size:11px;letter-spacing:.1em;line-height:2.1;color:var(--gris);margin-top:1.2rem;max-width:380px;">Chaque installation est réalisée par notre réseau d'artisans certifiés. De la prise de mesures à la mise en service, nous gérons tout.</p>
+    <div class="process-steps">
+      <div class="pstep">
+        <div class="step-num">1</div>
+        <div><p class="step-title">Consultation &amp; Devis</p><p class="step-desc">Un expert se déplace pour étudier votre espace. Devis détaillé sous 48h.</p></div>
+      </div>
+      <div class="pstep">
+        <div class="step-num">2</div>
+        <div><p class="step-title">Fabrication sur mesure</p><p class="step-desc">Fabriqué selon vos spécifications dans nos ateliers partenaires certifiés.</p></div>
+      </div>
+      <div class="pstep">
+        <div class="step-num">3</div>
+        <div><p class="step-title">Installation &amp; Mise en service</p><p class="step-desc">Installation en 1 à 2 journées. Démonstration complète des fonctions incluse.</p></div>
+      </div>
+      <div class="pstep">
+        <div class="step-num">4</div>
+        <div><p class="step-title">Garantie &amp; SAV 10 ans</p><p class="step-desc">Intervention garantie sous 72h pendant toute la durée de votre garantie.</p></div>
+      </div>
+    </div>
+    <a href="#contact" class="btn-primary" style="display:inline-block;margin-top:.5rem;" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Réserver une consultation</a>
+  </div>
+</div>
+
+<!-- BOOKING FORM -->
+<section id="contact" class="booking">
+  <div class="booking-inner">
+    <p class="section-label" style="justify-content:center;">Devis Gratuit</p>
+    <h2 class="section-title">Votre projet,<br><em>votre espace</em></h2>
+    <p style="font-size:11px;letter-spacing:.12em;line-height:2;color:var(--gris);margin-top:1rem;">Un expert vous rappelle sous 24h pour finaliser votre devis personnalisé.</p>
+    <form class="booking-form" onsubmit="handleSubmit(event)">
+      <div class="fgroup"><label class="flabel">Prénom &amp; Nom</label><input type="text" class="finput" placeholder="Jean Dupont"></div>
+      <div class="fgroup"><label class="flabel">Email</label><input type="email" class="finput" placeholder="jean@exemple.fr"></div>
+      <div class="fgroup"><label class="flabel">Téléphone</label><input type="tel" class="finput" placeholder="+33 6 00 00 00 00"></div>
+      <div class="fgroup"><label class="flabel">Code postal</label><input type="text" class="finput" placeholder="75001"></div>
+      <div class="fgroup">
+        <label class="flabel">Type de produit</label>
+        <select class="fselect">
+          <option value="">Sélectionner...</option>
+          <option>Pergola bioclimatique motorisée</option>
+          <option>Pergola bioclimatique manuelle</option>
+          <option>Pergola à toiture vitrée</option>
+          <option>Carport 1 voiture</option>
+          <option>Carport 2 voitures</option>
+          <option>Sur mesure</option>
+        </select>
+      </div>
+      <div class="fgroup">
+        <label class="flabel">Budget estimé</label>
+        <select class="fselect">
+          <option value="">Sélectionner...</option>
+          <option>Moins de 3 000 €</option>
+          <option>3 000 € – 5 000 €</option>
+          <option>5 000 € – 10 000 €</option>
+          <option>Plus de 10 000 €</option>
+        </select>
+      </div>
+      <div class="fgroup full"><label class="flabel">Description du projet</label><textarea class="ftextarea" placeholder="Parlez-nous de votre espace, vos attentes..."></textarea></div>
+      <button type="submit" class="fsubmit">Demander mon devis gratuit — Réponse sous 24h</button>
+    </form>
+  </div>
+</section>
+
+<!-- WHY -->
+<section class="why">
+  <p class="section-label">Notre Engagement</p>
+  <h2 class="section-title">Pourquoi choisir <em>ARQUA</em></h2>
+  <div class="why-grid">
+    <div class="why-item">
+      <div class="why-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="8" width="24" height="3" fill="var(--or)"/><line x1="4" y1="11" x2="4" y2="28" stroke="var(--or)" stroke-width="1.5"/><line x1="28" y1="11" x2="28" y2="28" stroke="var(--or)" stroke-width="1.5"/><line x1="4" y1="16" x2="28" y2="16" stroke="var(--or-pale)" stroke-width="1"/><line x1="4" y1="21" x2="28" y2="21" stroke="var(--or-pale)" stroke-width="1"/><line x1="4" y1="26" x2="28" y2="26" stroke="var(--or-pale)" stroke-width="1"/></svg></div>
+      <h3 class="why-title">Aluminium Premium</h3>
+      <p class="why-desc">Aluminium extrudé thermo-laqué, résistant à la corrosion et aux UV. Finition irréprochable garantie 10 ans.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="11" stroke="var(--or)" stroke-width="1.5" fill="none"/><path d="M10 16 L14 20 L22 12" stroke="var(--or)" stroke-width="2" fill="none"/></svg></div>
+      <h3 class="why-title">Garantie 10 Ans</h3>
+      <p class="why-desc">Structure garantie 10 ans pièces et main d'œuvre. Intervention SAV sous 72h partout en France.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4 L20 12 L28 13 L22 19 L24 28 L16 24 L8 28 L10 19 L4 13 L12 12 Z" stroke="var(--or)" stroke-width="1.5" fill="var(--or-pale)"/></svg></div>
+      <h3 class="why-title">Artisans Certifiés</h3>
+      <p class="why-desc">Réseau d'installateurs sélectionnés et formés par ARQUA. Chantier propre, livré clé en main.</p>
+    </div>
+    <div class="why-item">
+      <div class="why-icon"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="10" width="24" height="18" rx="2" stroke="var(--or)" stroke-width="1.5" fill="none"/><line x1="4" y1="16" x2="28" y2="16" stroke="var(--or-pale)" stroke-width="1"/><line x1="10" y1="4" x2="10" y2="12" stroke="var(--or)" stroke-width="1.5"/><line x1="22" y1="4" x2="22" y2="12" stroke="var(--or)" stroke-width="1.5"/></svg></div>
+      <h3 class="why-title">Installation Rapide</h3>
+      <p class="why-desc">Délai moyen de 4 à 6 semaines entre commande et installation. Livraison gratuite en France.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FINISHES -->
+<section>
+  <p class="section-label">Finitions</p>
+  <h2 class="section-title">Coloris &amp; <em>Matières</em></h2>
+  <div class="finishes-grid">
+    <div class="finish-item"><div class="finish-swatch" style="background:#111111;border-color:rgba(0,0,0,.2);"></div><p class="finish-name">Noir Intense</p></div>
+    <div class="finish-item"><div class="finish-swatch" style="background:#3a3a3a;"></div><p class="finish-name">Anthracite</p></div>
+    <div class="finish-item"><div class="finish-swatch" style="background:#f0ede8;border-color:var(--creme-dark);"></div><p class="finish-name">Blanc Ivoire</p></div>
+    <div class="finish-item"><div class="finish-swatch" style="background:#c8b8a0;"></div><p class="finish-name">Sable Doré</p></div>
+    <div class="finish-item"><div class="finish-swatch" style="background:linear-gradient(135deg,#7a6248,#c8b09a);"></div><p class="finish-name">Bois Brossé</p></div>
+  </div>
+</section>
+
+<!-- REALISATIONS -->
+<section class="realisations" id="realisations" style="padding-left:0;padding-right:0;">
+  <div class="realisations-header">
+    <p class="section-label">Nos Réalisations</p>
+    <h2 class="section-title">Projets <em>réalisés</em></h2>
+  </div>
+  <div class="real-scroll">
+    <div class="real-card"><div class="real-img"><img src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80&auto=format" alt="Paris 16e"></div><div class="real-info"><p class="real-name">Pergola Signature Motorisée</p><p class="real-loc">Paris 16e — Jardin privatif</p></div></div>
+    <div class="real-card"><div class="real-img"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=700&q=80&auto=format" alt="Lyon"></div><div class="real-info"><p class="real-name">Carport Double Prestige</p><p class="real-loc">Lyon 6e — Villa avec piscine</p></div></div>
+    <div class="real-card"><div class="real-img"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?w=700&q=80&auto=format" alt="Bordeaux"></div><div class="real-info"><p class="real-name">Pergola Élite Motorisée</p><p class="real-loc">Bordeaux — Propriété bordelaise</p></div></div>
+    <div class="real-card"><div class="real-img"><img src="https://images.unsplash.com/photo-1613977257592-4871e5fcd7c4?w=700&q=80&auto=format" alt="Nice"></div><div class="real-info"><p class="real-name">Pergola Sur Mesure XXL</p><p class="real-loc">Nice — Terrasse vue mer</p></div></div>
+    <div class="real-card"><div class="real-img"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=700&q=80&auto=format" alt="Aix-en-Provence"></div><div class="real-info"><p class="real-name">Carport Autoportant Design</p><p class="real-loc">Aix-en-Provence — Mas provençal</p></div></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <p class="section-label">Témoignages</p>
+  <h2 class="section-title">Ils ont choisi <em>ARQUA</em></h2>
+  <div class="testi-grid">
+    <div class="tcard">
+      <div class="tstars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+      <p class="tquote">"Une qualité d'exception. La pergola a transformé notre terrasse en un véritable salon extérieur. L'équipe d'installation était parfaitement professionnelle."</p>
+      <div class="tauthor"><div class="tavatar">SB</div><div><p class="tname">Sophie B.</p><p class="tloc">Paris — Pergola Signature</p></div></div>
+    </div>
+    <div class="tcard">
+      <div class="tstars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+      <p class="tquote">"Le carport double est exactement ce que nous voulions. Robuste, élégant, parfaitement intégré à notre maison. Le délai a été respecté à la lettre."</p>
+      <div class="tauthor"><div class="tavatar">MR</div><div><p class="tname">Marc R.</p><p class="tloc">Lyon — Carport Double</p></div></div>
+    </div>
+    <div class="tcard">
+      <div class="tstars"><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span><span class="tstar">★</span></div>
+      <p class="tquote">"Service premium du début à la fin. Le suivi post-installation est excellent. Je recommande ARQUA les yeux fermés pour tout projet d'envergure."</p>
+      <div class="tauthor"><div class="tavatar">CL</div><div><p class="tname">Claire L.</p><p class="tloc">Bordeaux — Pergola Élite</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BANNER -->
+<div class="banner">
+  <div>
+    <h2 class="banner-title">Votre espace extérieur<br>mérite <em>l'excellence.</em></h2>
+    <p class="banner-sub">Devis gratuit · Réponse sous 24h · Installation garantie</p>
+  </div>
+  <a href="#contact" class="btn-light" onclick="event.preventDefault();document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Démarrer mon projet →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <span class="footer-logo">ARQ<span>◆</span>A</span>
+      <p class="footer-tagline">Spécialiste des pergolas et carports haut de gamme. Design, durabilité, excellence depuis 2012.</p>
+      <a href="tel:+33142000000" class="footer-phone">+33 1 42 00 00 00</a>
+      <a href="mailto:contact@arqua.fr" class="footer-email">contact@arqua.fr</a>
+    </div>
+    <div>
+      <p class="footer-col-title">Produits</p>
+      <ul class="footer-links"><li><a href="#">Pergola bioclimatique</a></li><li><a href="#">Pergola à lames</a></li><li><a href="#">Pergola vitrée</a></li><li><a href="#">Carport adossé</a></li><li><a href="#">Carport autoportant</a></li><li><a href="#">Sur mesure</a></li></ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Services</p>
+      <ul class="footer-links"><li><a href="#">Devis gratuit</a></li><li><a href="#">Installation pro</a></li><li><a href="#">Nos réalisations</a></li><li><a href="#">Guide d'achat</a></li><li><a href="#">Entretien &amp; SAV</a></li></ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Informations</p>
+      <ul class="footer-links"><li><a href="#">À propos d'ARQUA</a></li><li><a href="#">Nos garanties</a></li><li><a href="#">Paiement en 3×</a></li><li><a href="#">Livraison</a></li><li><a href="#">Mentions légales</a></li></ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="footer-copy">© 2025 ARQUA — Tous droits réservés</p>
+    <div class="footer-social">
+      <a href="#" class="social-link">In</a>
+      <a href="#" class="social-link">Pi</a>
+      <a href="#" class="social-link">Li</a>
+      <a href="#" class="social-link">Yt</a>
+    </div>
+  </div>
+</footer>
+
+</div><!-- end pageHome -->
+
+
+<!-- ===================== PAGE PRODUIT ===================== -->
+<div class="page" id="pageProd">
+
+<div class="breadcrumb">
+  <a href="#" onclick="showPage('home');return false;">Accueil</a>
+  <span>›</span>
+  <a href="#" onclick="showPage('home');document.getElementById('collections').scrollIntoView({behavior:'smooth'});return false;">Collections</a>
+  <span>›</span>
+  <span id="breadProdName">Pergola Signature</span>
+</div>
+
+<!-- PRODUCT HERO -->
+<div class="prod-hero">
+  <div class="prod-gallery">
+    <img id="prodMainImg" class="main-img" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85&auto=format" alt="Produit">
+    <div class="prod-gallery-thumbs">
+      <img class="thumb active" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=200&q=70&auto=format" onclick="switchImg(this,'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1200&q=85&auto=format')" alt="">
+      <img class="thumb" src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=200&q=70&auto=format" onclick="switchImg(this,'https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=1200&q=85&auto=format')" alt="">
+      <img class="thumb" src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=200&q=70&auto=format" onclick="switchImg(this,'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=1200&q=85&auto=format')" alt="">
+    </div>
+  </div>
+
+  <div class="prod-info">
+    <div class="prod-badge-row">
+      <span class="pbadge gold" id="prodBadge1">Bestseller 2025</span>
+      <span class="pbadge outline" id="prodBadge2">Nouveau</span>
+    </div>
+    <h1 class="prod-title" id="prodTitle">Pergola Signature<br>Bioclimatique</h1>
+    <p class="prod-subtitle" id="prodSubtitle">Pergola motorisée premium · Aluminium thermo-laqué</p>
+    <div class="prod-price-row">
+      <span class="prod-price-from">À partir de</span>
+      <span class="prod-price" id="prodPrice">4 890 €</span>
+      <span class="prod-price-unit">TTC · Livraison incluse</span>
+    </div>
+
+    <!-- Couleur -->
+    <div class="config-section">
+      <p class="config-title">Coloris — <span id="colorName" style="color:var(--or);font-family:var(--serif);font-style:italic;font-size:13px;text-transform:none;letter-spacing:0;">Noir Intense</span></p>
+      <div class="color-options">
+        <div class="color-opt selected" style="background:#111111;" onclick="selectColor(this,'Noir Intense')" title="Noir Intense"></div>
+        <div class="color-opt" style="background:#3a3a3a;" onclick="selectColor(this,'Anthracite')" title="Anthracite"></div>
+        <div class="color-opt" style="background:#f0ede8;border:2px solid var(--creme-dark);" onclick="selectColor(this,'Blanc Ivoire')" title="Blanc Ivoire"></div>
+        <div class="color-opt" style="background:#c8b8a0;" onclick="selectColor(this,'Sable Doré')" title="Sable Doré"></div>
+      </div>
+    </div>
+
+    <!-- Taille -->
+    <div class="config-section">
+      <p class="config-title">Dimensions</p>
+      <div class="size-options">
+        <button class="size-opt selected" onclick="selectSize(this)">3×3 m</button>
+        <button class="size-opt" onclick="selectSize(this)">3×4 m</button>
+        <button class="size-opt" onclick="selectSize(this)">4×4 m</button>
+        <button class="size-opt" onclick="selectSize(this)">4×5 m</button>
+        <button class="size-opt" onclick="selectSize(this)">Sur mesure</button>
+      </div>
+    </div>
+
+    <!-- Features -->
+    <div class="prod-features">
+      <div class="pfeature"><span class="pfeature-icon">◆</span><span class="pfeature-text">Lames motorisées 0–130° télécommande &amp; app</span></div>
+      <div class="pfeature"><span class="pfeature-icon">◆</span><span class="pfeature-text">LED intégrées intensité variable 360°</span></div>
+      <div class="pfeature"><span class="pfeature-icon">◆</span><span class="pfeature-text">Résistance ouragan Beaufort 12 certifiée</span></div>
+      <div class="pfeature"><span class="pfeature-icon">◆</span><span class="pfeature-text">Système RainLUX drainage invisible</span></div>
+    </div>
+
+    <div class="prod-cta">
+      <button class="btn-buy" id="prodAddBtn" onclick="addFromProd()">Ajouter au panier</button>
+      <a href="#contact" class="btn-devis" onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),150);return false;">Demander un devis d'installation</a>
+      <div class="prod-reassurance">
+        <div class="reass-item"><span style="color:var(--or);">✓</span> Livraison offerte</div>
+        <div class="reass-item"><span style="color:var(--or);">✓</span> Garantie 10 ans</div>
+        <div class="reass-item"><span style="color:var(--or);">✓</span> Retour 30 jours</div>
+        <div class="reass-item"><span style="color:var(--or);">✓</span> Paiement 3×</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUCT TABS -->
+<div class="prod-tabs">
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchTab(this,'tabDesc')">Description</button>
+    <button class="tab-btn" onclick="switchTab(this,'tabSpecs')">Caractéristiques</button>
+    <button class="tab-btn" onclick="switchTab(this,'tabInclus')">Ce qui est inclus</button>
+    <button class="tab-btn" onclick="switchTab(this,'tabInstall')">Installation</button>
+  </div>
+
+  <div class="tab-content active" id="tabDesc">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center;">
+      <div>
+        <p class="section-label">La pergola de référence</p>
+        <h2 class="section-title" style="font-size:clamp(26px,2.5vw,40px);">Design &amp; <em>Performance</em></h2>
+        <p style="font-size:11px;letter-spacing:.06em;line-height:2.1;color:var(--gris);margin-top:1.5rem;" id="prodDesc">La Pergola Signature est notre modèle le plus abouti. Conçue pour les exigeants, elle combine un design épuré avec des performances techniques inégalées. Ses lames en aluminium thermo-laqué s'orientent de 0 à 130° en toute fluidité, vous permettant de maîtriser lumière, ventilation et protection de manière intuitive. Son éclairage LED intégré à intensité variable transforme vos soirées extérieures. La connectivité Smart Home lui permet d'être pilotée depuis votre smartphone, télécommande ou système domotique.</p>
+        <div style="margin-top:2rem;display:flex;gap:2rem;">
+          <div><span style="font-family:var(--serif);font-size:28px;color:var(--or);">170</span><span style="font-size:9px;display:block;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-top:2px;">kg/m² neige</span></div>
+          <div><span style="font-family:var(--serif);font-size:28px;color:var(--or);">12</span><span style="font-size:9px;display:block;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-top:2px;">Beaufort vent</span></div>
+          <div><span style="font-family:var(--serif);font-size:28px;color:var(--or);">10</span><span style="font-size:9px;display:block;letter-spacing:.2em;text-transform:uppercase;color:var(--gris);margin-top:2px;">Ans garantie</span></div>
+        </div>
+      </div>
+      <div><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=700&q=80&auto=format" alt="Détail pergola" style="width:100%;height:380px;object-fit:cover;"></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tabSpecs">
+    <div class="specs-grid">
+      <div class="spec-item"><p class="spec-label">Matériau</p><p class="spec-value">Aluminium</p><p class="spec-sub">Extrudé thermo-laqué RAL</p></div>
+      <div class="spec-item"><p class="spec-label">Dimensions</p><p class="spec-value">3×3 à 6×5 m</p><p class="spec-sub">7 tailles standard + sur mesure</p></div>
+      <div class="spec-item"><p class="spec-label">Lames</p><p class="spec-value">166,5 mm</p><p class="spec-sub">Double paroi, orientables 0–130°</p></div>
+      <div class="spec-item"><p class="spec-label">Résistance neige</p><p class="spec-value">170 kg/m²</p><p class="spec-sub">Résistance maximale certifiée</p></div>
+      <div class="spec-item"><p class="spec-label">Résistance vent</p><p class="spec-value">Beaufort 12</p><p class="spec-sub">118+ km/h certifié</p></div>
+      <div class="spec-item"><p class="spec-label">Installation</p><p class="spec-value">2 à 5h</p><p class="spec-sub">Pour 2 personnes</p></div>
+      <div class="spec-item"><p class="spec-label">Motorisation</p><p class="spec-value">Somfy</p><p class="spec-sub">Télécommande + App + Domotique</p></div>
+      <div class="spec-item"><p class="spec-label">Coloris</p><p class="spec-value">4 standards</p><p class="spec-sub">Noir, Anthracite, Blanc, Sable + RAL</p></div>
+      <div class="spec-item"><p class="spec-label">Garantie</p><p class="spec-value">10 ans</p><p class="spec-sub">Structure principale, pièces incluses</p></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tabInclus">
+    <div class="inclus-grid">
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Structure complète</p><p class="inclus-desc">Poteaux, poutres, lames motorisées et quincaillerie de fixation inclus.</p></div></div>
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Motorisation Somfy</p><p class="inclus-desc">Moteur silencieux certifié, télécommande 5 canaux et câblage inclus.</p></div></div>
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Éclairage LED 360°</p><p class="inclus-desc">Bandeaux LED à intensité variable, connecteur Smart Home compatible.</p></div></div>
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Système RainLUX™</p><p class="inclus-desc">Gouttières intégrées dans les poteaux pour un drainage totalement invisible.</p></div></div>
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Notice + Vidéos</p><p class="inclus-desc">Manuel d'installation illustré et accès aux vidéos pas-à-pas en ligne.</p></div></div>
+      <div class="inclus-item"><span class="inclus-check">◆</span><div><p class="inclus-title">Livraison palette</p><p class="inclus-desc">Livraison gratuite au pied de votre domicile sous 15 jours ouvrés.</p></div></div>
+    </div>
+  </div>
+
+  <div class="tab-content" id="tabInstall">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start;">
+      <div>
+        <p style="font-size:11px;letter-spacing:.08em;line-height:2.1;color:var(--gris);margin-bottom:2rem;">Deux options s'offrent à vous : l'installation autonome ou la pose par l'un de nos artisans certifiés.</p>
+        <div class="pstep" style="border-left:2px solid var(--or);padding-left:1.5rem;padding-top:1rem;padding-bottom:1rem;margin-bottom:1rem;border-bottom:none;"><div><p class="step-title">Option A — Autonome</p><p class="step-desc">Kit livré avec manuel illustré et accès aux vidéos. Installation en 2 à 5h pour 2 personnes. Outils standard suffisants.</p></div></div>
+        <div class="pstep" style="border-left:2px solid var(--or);padding-left:1.5rem;padding-top:1rem;padding-bottom:1rem;border-bottom:none;"><div><p class="step-title">Option B — Installation pro</p><p class="step-desc">Artisan ARQUA certifié. Pose en 1 journée, mise en service complète et démonstration incluses. Devis gratuit.</p></div></div>
+        <a href="#" class="btn-primary" style="display:inline-block;margin-top:2rem;" onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'smooth'}),150);return false;">Réserver l'installation pro</a>
+      </div>
+      <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=700&q=80&auto=format" alt="Installation" style="width:100%;height:380px;object-fit:cover;">
+    </div>
+  </div>
+</div>
+
+<!-- RELATED PRODUCTS -->
+<section class="related">
+  <p class="section-label">Vous aimerez aussi</p>
+  <h2 class="section-title">Produits <em>similaires</em></h2>
+  <div class="related-grid">
+    <div class="pcard" style="cursor:none;">
+      <div class="pcard-img" style="height:220px;"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&auto=format" alt="Pergola Élite"></div>
+      <div class="pcard-info"><span class="pcard-cat">Pergola</span><h3 class="pcard-name">Pergola Élite</h3><div class="pcard-footer"><div><span class="pcard-price">3 290 €</span></div><div class="pcard-actions"><a href="#" class="btn-detail" onclick="openProduct('elite');return false;">Voir</a><button class="btn-add" onclick="addToCart('Pergola Élite',3290,'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=120&q=70')">Ajouter</button></div></div></div>
+    </div>
+    <div class="pcard" style="cursor:none;">
+      <div class="pcard-img" style="height:220px;"><img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&q=80&auto=format" alt="Carport Prestige"></div>
+      <div class="pcard-info"><span class="pcard-cat">Carport</span><h3 class="pcard-name">Carport Prestige</h3><div class="pcard-footer"><div><span class="pcard-price">2 190 €</span></div><div class="pcard-actions"><a href="#" class="btn-detail" onclick="openProduct('carport1');return false;">Voir</a><button class="btn-add" onclick="addToCart('Carport Prestige',2190,'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=120&q=70')">Ajouter</button></div></div></div>
+    </div>
+    <div class="pcard" style="cursor:none;">
+      <div class="pcard-img" style="height:220px;"><img src="https://images.unsplash.com/photo-1600566753151-384129cf4e3e?w=600&q=80&auto=format" alt="Sur Mesure"></div>
+      <div class="pcard-info"><span class="pcard-cat">Sur mesure</span><h3 class="pcard-name">Création Personnalisée</h3><div class="pcard-footer"><div><span class="pcard-price">Sur devis</span></div><div class="pcard-actions"><a href="#" class="btn-detail" onclick="showPage('home');setTimeout(()=>document.getElementById('contact').scrollIntoView({behavior:'
